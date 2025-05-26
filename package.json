@@ -1,0 +1,31 @@
+{
+  "name": "openwebui-electron",
+  "main": "main.js",
+  "type": "commonjs",
+  "version": "0.0.1",
+  "author": "<Your name here>",
+  "description": "Electron wrapper for OpenWebUI",
+  "private": true,
+  "build": {
+    "appId": "<App ID>",
+    "productName": "OpenWebUI",
+    "mac": {
+      "category": "public.app-category.utilities",
+      "target": "dmg",
+      "icon": "icon.icns",
+      "identity": "<Apple Development: <Your email> (<Your Apple Developer Team ID>)"
+    }
+  },
+  "scripts": {
+    "start": "electron .",
+    "dist": "electron-builder"
+  },
+  "devDependencies": {
+    "@types/bun": "latest",
+    "electron": "^36.3.1",
+    "electron-builder": "^26.0.12"
+  },
+  "peerDependencies": {
+    "typescript": "^5"
+  }
+}

@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <style>
+      body {
+        margin: 0;
+        background: transparent;
+        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+          Helvetica, Arial, sans-serif;
+        -webkit-font-smoothing: antialiased;
+        -moz-osx-font-smoothing: grayscale;
+      }
+      #container {
+        background-color: rgba(255, 255, 255, 0.95);
+        padding: 10px;
+        border-radius: 8px;
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
+      }
+      input {
+        font-size: 24px;
+        padding: 8px;
+        border: none;
+        outline: none;
+        border-radius: 4px;
+        color: #1d1d1f;
+        background-color: rgba(255, 255, 255, 0.95);
+      }
+      label {
+        color: #1d1d1f;
+        font-size: 14px;
+        display: flex;
+        align-items: center;
+        gap: 5px;
+      }
+
+      #searchToggle {
+        display: none;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="container">
+      <input id="urlInput" placeholder="Ask anything" autofocus />
+      <label>
+        <input type="checkbox" id="searchToggle"/>
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          width="20"
+          height="20"
+          stroke="#86868b"
+          fill="none"
+          id="globeIcon"
+        >
+          <path stroke-width="1.3" d="M10.45,0.75a9.75,9.75 0 1,0 0.1,0z" />
+          <path
+            stroke-width="0.9"
+            d="m10.5,0.75v19.5m9.75-9.75H0.75M2.95,4.5a13,13 0 0,0 15.1,0 m0,12 a13,13 0 0,0-15.1,0M9.75,1a12.5,12.5 0 0,0 0,19.1 m1.5,0 a12.5,12.5 0 0,0 0-19.1"
+          />
+        </svg>
+      </label>
+    </div>
+
+    <script>
+      const input = document.getElementById("urlInput");
+      const checkbox = document.getElementById("searchToggle");
+
+      checkbox.addEventListener("change", (e) => {
+        document.getElementById("globeIcon").style.stroke = e.target.checked
+          ? "rgb(0, 122, 255)"
+          : "#86868b";
+      });
+
+      // Select all text when the window regains focus
+      window.addEventListener("focus", () => {
+        input.focus();
+        input.select();
+      });
+
+      input.focus();
+      input.select(); // Also selects all on initial load
+
+      input.addEventListener("keydown", (e) => {
+        if (e.key === "Enter") {
+          const isSearch = checkbox.checked;
+          const value = input.value.trim();
+          window.electronAPI.launchAppWithURL({ value, isSearch });
+        } else if (e.key === "Escape") {
+          window.electronAPI.hideLauncher();
+        }
+      });
+    </script>
+  </body>
+</html>
